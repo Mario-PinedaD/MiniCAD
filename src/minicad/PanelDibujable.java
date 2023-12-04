@@ -4,7 +4,9 @@
  */
 package minicad;
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -12,13 +14,35 @@ import java.awt.Color;
  */
 public class PanelDibujable extends javax.swing.JPanel {
 
+    private ArrayList<Polygon> formas = new ArrayList<Polygon>();
+    private HashMap mapa = new HashMap();
+    private double[][] matriz;
+    private int[][] matrizIdentidad;
+
     /**
      * Creates new form PanelDibujable
      */
     public PanelDibujable() {
         initComponents();
         this.setBackground(Color.WHITE);
+        //crearIdentidad();
     }
+
+    public void setFigura() {
+
+    }
+
+//    public void crearIdentidad() {
+//        matrizIdentidad[0][0] = 1;
+//        matrizIdentidad[0][1] = 0;
+//        matrizIdentidad[0][2] = 0;
+//        matrizIdentidad[1][0] = 0;
+//        matrizIdentidad[1][1] = 1;
+//        matrizIdentidad[1][2] = 0;
+//        matrizIdentidad[2][0] = 0;
+//        matrizIdentidad[2][1] = 0;
+//        matrizIdentidad[2][2] = 1;
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,7 +65,21 @@ public class PanelDibujable extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+}
+
+class Figura {
+
+    private int puntos;
+
+    public Figura(int puntos) {
+        this.puntos = puntos;
+    }
 }

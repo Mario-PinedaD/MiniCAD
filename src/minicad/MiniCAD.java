@@ -6,7 +6,7 @@ package minicad;
 
 /**
  *
- * @author Mario Pineda
+ * @author Pineda Mario Numero de control: 21020414 Grupo: 8:00 - 9:00
  */
 public class MiniCAD {
 
@@ -16,8 +16,10 @@ public class MiniCAD {
     public static void main(String[] args) {
         // TODO code application logic here
         Ventana f = new Ventana();
-        OyenteEventos oyente = new OyenteEventos(f);
+        PanelDibujable panel = new PanelDibujable();
+        OyenteEventos oyente = new OyenteEventos(f, panel);
         f.addEventos(oyente);
+        f.addEventosMouse(oyente);
         f.setName("MiniCAD");
         f.setSize(800, 800);
         f.setLocation(100, 100);

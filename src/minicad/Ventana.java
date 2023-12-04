@@ -6,6 +6,8 @@ package minicad;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import javax.swing.JPanel;
 
 /**
  *
@@ -19,8 +21,8 @@ public class Ventana extends javax.swing.JFrame {
     public Ventana() {
         initComponents();
     }
-    
-    public void addEventos(ActionListener e){
+
+    public void addEventos(ActionListener e) {
         botonEscalar.addActionListener(e);
         botonEscalar.setName("escalar");
         botonRotar.addActionListener(e);
@@ -29,6 +31,14 @@ public class Ventana extends javax.swing.JFrame {
         botonX.setName("botonx");
         botonY.addActionListener(e);
         botonY.setName("botony");
+        botonSeleccion.addActionListener(e);
+        botonSeleccion.setName("seleccion");
+        botonLimpiar.addActionListener(e);
+        botonLimpiar.setName("limpiar");
+    }
+
+    public void addEventosMouse(MouseListener m) {
+        panelDibujable1.addMouseListener(m);
     }
 
     /**
@@ -43,18 +53,22 @@ public class Ventana extends javax.swing.JFrame {
         panelNorte = new javax.swing.JPanel();
         etiquetaFiguras = new javax.swing.JLabel();
         panelSur = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         entradaMovX = new javax.swing.JTextField();
         botonX = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         entradaMovY = new javax.swing.JTextField();
         botonY = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         entradaEscalar = new javax.swing.JSpinner();
         botonEscalar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
         entradaRotar = new javax.swing.JTextField();
         botonRotar = new javax.swing.JButton();
         panelDibujable1 = new minicad.PanelDibujable();
         panelEste = new javax.swing.JPanel();
         opcionFigura = new javax.swing.JComboBox<>();
-        seleccionFigura = new javax.swing.JButton();
+        botonSeleccion = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         botonLimpiar = new javax.swing.JButton();
@@ -66,22 +80,38 @@ public class Ventana extends javax.swing.JFrame {
 
         getContentPane().add(panelNorte, java.awt.BorderLayout.NORTH);
 
-        panelSur.setLayout(new java.awt.GridLayout(1, 9));
+        jLabel1.setText("X:");
+        panelSur.add(jLabel1);
+
+        entradaMovX.setColumns(5);
         panelSur.add(entradaMovX);
 
         botonX.setText("Mover X");
         panelSur.add(botonX);
+
+        jLabel2.setText("Y:");
+        panelSur.add(jLabel2);
+
+        entradaMovY.setColumns(5);
         panelSur.add(entradaMovY);
 
         botonY.setText("Mover Y");
         panelSur.add(botonY);
 
+        jLabel3.setText("Escalar:");
+        panelSur.add(jLabel3);
+
         entradaEscalar.setToolTipText("");
-        entradaEscalar.setName("1"); // NOI18N
+        entradaEscalar.setName(""); // NOI18N
         panelSur.add(entradaEscalar);
 
         botonEscalar.setText("Escalar");
         panelSur.add(botonEscalar);
+
+        jLabel4.setText("Rotación:");
+        panelSur.add(jLabel4);
+
+        entradaRotar.setColumns(5);
         panelSur.add(entradaRotar);
 
         botonRotar.setText("Rotar");
@@ -93,11 +123,11 @@ public class Ventana extends javax.swing.JFrame {
         panelDibujable1.setLayout(panelDibujable1Layout);
         panelDibujable1Layout.setHorizontalGroup(
             panelDibujable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 443, Short.MAX_VALUE)
+            .addGap(0, 557, Short.MAX_VALUE)
         );
         panelDibujable1Layout.setVerticalGroup(
             panelDibujable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 469, Short.MAX_VALUE)
+            .addGap(0, 459, Short.MAX_VALUE)
         );
 
         getContentPane().add(panelDibujable1, java.awt.BorderLayout.CENTER);
@@ -106,7 +136,7 @@ public class Ventana extends javax.swing.JFrame {
 
         opcionFigura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Linea", "Triangulo", "Cuadrado", "Pentagono" }));
 
-        seleccionFigura.setText("Seleccionar");
+        botonSeleccion.setText("Seleccionar");
 
         jScrollPane1.setViewportView(jList1);
 
@@ -121,7 +151,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(panelEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(opcionFigura, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(seleccionFigura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonSeleccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -129,11 +159,11 @@ public class Ventana extends javax.swing.JFrame {
             panelEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEsteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(opcionFigura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(seleccionFigura)
+                .addComponent(botonSeleccion)
                 .addGap(18, 18, 18)
                 .addComponent(botonLimpiar)
                 .addContainerGap())
@@ -144,27 +174,47 @@ public class Ventana extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
-    public double getEscala() {
-        return (double) entradaEscalar.getValue();
+    public JPanel getPanel() {
+        return panelDibujable1;
     }
-    
+
+    public double getEscala() {
+        int valor = Integer.parseInt(entradaEscalar.getValue().toString());
+        if (valor > 0) {
+            if (valor == 0) {
+
+            } else {
+                return Double.valueOf(entradaEscalar.getValue().toString());
+            }
+        } else {
+            return 0.0;
+        }
+        return 0;
+    }
+
     public int getMovX() {
         return Integer.parseInt(entradaMovX.getText());
     }
-    
+
     public int getMovY() {
         return Integer.parseInt(entradaMovY.getName());
     }
-    
-    public int getRotar(){
+
+    public int getRotar() {
         return Integer.parseInt(entradaRotar.getText());
+    }
+
+    public String getSeleccionFigura() {
+        //return opcionFigura.getSelectedItem().toString();
+        //return opcionFigura.getActionCommand();
+        return opcionFigura.getSelectedItem().toString();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonEscalar;
     private javax.swing.JButton botonLimpiar;
     private javax.swing.JButton botonRotar;
+    private javax.swing.JButton botonSeleccion;
     private javax.swing.JButton botonX;
     private javax.swing.JButton botonY;
     private javax.swing.JSpinner entradaEscalar;
@@ -172,6 +222,10 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JTextField entradaMovY;
     private javax.swing.JTextField entradaRotar;
     private javax.swing.JLabel etiquetaFiguras;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> opcionFigura;
@@ -179,6 +233,5 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JPanel panelEste;
     private javax.swing.JPanel panelNorte;
     private javax.swing.JPanel panelSur;
-    private javax.swing.JButton seleccionFigura;
     // End of variables declaration//GEN-END:variables
 }
