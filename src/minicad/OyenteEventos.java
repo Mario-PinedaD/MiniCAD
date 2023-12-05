@@ -69,6 +69,7 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         System.out.println("Seleccionó libre");
         System.out.println("Tamaño: " + formas.size());
         formas.add(crearPolygonos(puntosPoligonos));
+        panel.setFiguras(formas);
         puntosPoligonos.clear();
         panel.repaint();
         break;
@@ -76,8 +77,7 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         System.out.println("Limpiar");
         break;
     }
-    panel.repaint();
-    vista.repaint();
+    
   }
   
     public Polygon crearPolygonos(ArrayList<Point> puntos) {

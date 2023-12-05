@@ -54,6 +54,7 @@ public class PanelDibujable extends javax.swing.JPanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     dibujarPuntos(g);
+      System.out.println("Cantidad " +figuras.size());
   }
 
   @Override
@@ -72,9 +73,9 @@ public class PanelDibujable extends javax.swing.JPanel {
     // Dibujar cada polígono
     for (Polygon poligono : figuras) {
       g.drawPolygon(poligono);
-      this.repaint();
+      //this.repaint();
     }
-    this.repaint();
+    //this.repaint();
 
   }
 
