@@ -23,7 +23,6 @@ public class PanelDibujable extends javax.swing.JPanel {
     this.figuras = new ArrayList<>();
     initComponents();
     this.setBackground(Color.WHITE);
-    //crearIdentidad();
   }
 
   public void eventosMouse(MouseListener m) {
@@ -64,17 +63,19 @@ public class PanelDibujable extends javax.swing.JPanel {
   }
 
   public void dibujarPuntos(Graphics g) {
-    Graphics2D g2d = (Graphics2D) g;
-    g2d.setColor(new Color(
+    //Graphics2D g2d = (Graphics2D) g;
+    g.setColor(new Color(
       (int) (Math.random() * 256),
       (int) (Math.random() * 256),
       (int) (Math.random() * 256)));
 
     // Dibujar cada polígono
     for (Polygon poligono : figuras) {
-      g2d.drawPolygon(poligono);
+      g.drawPolygon(poligono);
       this.repaint();
     }
+    this.repaint();
+
   }
 
   public void setFiguras(ArrayList<Polygon> figuras) {

@@ -34,10 +34,8 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-
     Point punto = new Point(e.getX(), e.getY());
     puntosPoligonos.add(punto);
-
     //Esto nomas fue prueba
 //    System.out.println("Posicion en x " + e.getComponent().getLocation().getX());
 //    System.out.println("Posicion en y " + e.getComponent().getLocation().getY());
@@ -70,7 +68,9 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
       case "dibujar":
         System.out.println("Seleccionó libre");
         System.out.println("Tamaño: " + formas.size());
-        panel.setFiguras(crearPolygono(puntosPoligonos));
+        formas.add(crearPolygonos(puntosPoligonos));
+        puntosPoligonos.clear();
+        panel.repaint();
         break;
       case "limpiar":
         System.out.println("Limpiar");
@@ -79,9 +79,8 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
     panel.repaint();
     vista.repaint();
   }
-
-  public ArrayList<Polygon> crearPolygono(ArrayList<Point> puntos) {
-    ArrayList<Polygon> temporal = new ArrayList<>();
+  
+    public Polygon crearPolygonos(ArrayList<Point> puntos) {
     int[] arrX = new int[puntos.size()];
     int[] arrY = new int[puntos.size()];
     for (int i = 0; i < puntos.size(); i++) {
@@ -90,8 +89,7 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
       arrX[i] = (int) puntos.get(i).getX();
       arrY[i] = (int) puntos.get(i).getY();
     }
-    Polygon tmp = new Polygon(arrX, arrY, puntos.size()); //Creo objeto poligono
-    temporal.add(tmp);
-    return temporal;
+    Polygon tmp = new Polygon(arrX, arrY, puntos.size()); //Creo objeto poligono;
+    return tmp;
   }
 }

@@ -22,6 +22,8 @@ public class MiniCAD {
         ventana.addEventos(oyente);
         panel.eventosMouse(oyente);
         ventana.addEventosMouse(oyente);
+        System.out.println("tamaño: " +panel.getSize());
+        ventana.add(panel);
         ventana.setName("MiniCAD");
         ventana.setSize(1000, 800);
         ventana.setLocation(100, 100);
