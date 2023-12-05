@@ -26,7 +26,7 @@ public class PanelDibujable extends javax.swing.JPanel {
     //crearIdentidad();
   }
 
-  public void setFigura(MouseListener m) {
+  public void eventosMouse(MouseListener m) {
     this.addMouseListener(m);
   }
 
@@ -54,29 +54,34 @@ public class PanelDibujable extends javax.swing.JPanel {
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    for (int i = 0; i < figuras.size(); i++) {
-      g.setColor(new Color(
-        (int) (Math.random() * 256),
-        (int) (Math.random() * 256),
-        (int) (Math.random() * 256)));
-      g.fillPolygon(figuras.get(figuras.size() - 1));
-    }
+    dibujarPuntos(g);
   }
 
   @Override
   public void paint(Graphics g) {
     super.paint(g);
+    dibujarPuntos(g);
   }
-  
-  public void dibujarPuntos(Graphics g){
-    Graphics2D g2= (Graphics2D) g;
+
+  public void dibujarPuntos(Graphics g) {
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.setColor(new Color(
+      (int) (Math.random() * 256),
+      (int) (Math.random() * 256),
+      (int) (Math.random() * 256)));
+
+    // Dibujar cada polígono
+    for (Polygon poligono : figuras) {
+      g2d.drawPolygon(poligono);
+      this.repaint();
+    }
   }
-  
-  
-  public void setFiguras(ArrayList<Polygon> formas) {
-    this.figuras = formas;
+
+  public void setFiguras(ArrayList<Polygon> figuras) {
+    this.figuras = figuras;
   }
-  public ArrayList<Polygon> getFiguras(){
+
+  public ArrayList<Polygon> getFiguras() {
     return figuras;
   }
     // Variables declaration - do not modify//GEN-BEGIN:variables

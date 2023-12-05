@@ -20,6 +20,7 @@ public class MiniCAD {
         OyenteEventos oyente = new OyenteEventos(ventana, panel);
         //*******************//
         ventana.addEventos(oyente);
+        panel.eventosMouse(oyente);
         ventana.addEventosMouse(oyente);
         ventana.setName("MiniCAD");
         ventana.setSize(1000, 800);

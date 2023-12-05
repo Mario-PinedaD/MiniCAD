@@ -24,24 +24,18 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
 
   private Ventana vista; //Ventana general
   private PanelDibujable panel; //Panel donde se va a Dibujar y hacer todo
-  private ArrayList<Polygon> formas = new ArrayList<Polygon>(); //Arraylist de puntos pa guardar
+  private ArrayList<Polygon> formas = new ArrayList<>(); //Arraylist de puntos pa guardar
+  private ArrayList<Integer> puntosX = new ArrayList<>();
+  private ArrayList<Integer> puntosY = new ArrayList<>();
   private int cantPuntos = 0; //cant de puntos de la figura
 
   public OyenteEventos(Ventana vista, PanelDibujable panel) {
     this.vista = vista;
     this.panel = panel;
-    formas.add(new Polygon());
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    /*
-    Figuras implementadas: 
-      Linea
-      Triangulo
-      Cuadrado
-      Pentagono
-     */
     int pLlevados = 0;
     int[] puntos;
     String figura = vista.getSeleccionFigura();
@@ -72,11 +66,10 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         cantPuntos = 5;
         puntos = new int[cantPuntos];
         break;
+      //=================
       case "Libre": //Caso fuera de la linea
-        if (pLlevados == 0) {
-          formas.add(new Polygon());
-        }
-        formas.get(formas.size() - 1).addPoint(e.getX(), e.getY());
+        puntosX.add(e.getX());
+        puntosY.add(e.getY());
         break;
     }
     //Esto nomas fue prueba
@@ -85,19 +78,6 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
 //    System.out.println("Mouse Presionao'");
 //    System.out.println("Posicion en el panel X: " + e.getX());
 //    System.out.println("Posicion en el panel Y: " + e.getY());
-  }
-
-  public void dibujarPuntos(int puntosDibujados, //puntos que llevamos dibujados/guardados
-    int puntosADibujar) { //Puntos para dibujar
-    do {
-      if (puntosDibujados > puntosADibujar) {
-
-      }
-    } while (puntosDibujados < puntosADibujar);
-  }
-
-  public void arregloPuntos(int longitud, int[] valores) {
-
   }
 
   @Override
@@ -124,9 +104,8 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
       case "dibujar":
         if (vista.getSeleccionFigura().equals("Libre")) {
           System.out.println("Seleccionó libre");
-          panel.setFiguras(formas);
-          
-          
+          System.out.println("Tamaño: " + formas.size());
+          panel.setFiguras(crearPolygono(puntosX, puntosY));
         }
         break;
       case "limpiar":
@@ -137,5 +116,13 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
     vista.repaint();
   }
 
-
+  public ArrayList<Polygon> crearPolygono(ArrayList<Integer> valX, ArrayList<Integer> valY) {
+    ArrayList<Polygon> temporal = new ArrayList<>();
+    for (int i = 0; i < valX.size(); i++) {
+      Polygon tmp = new Polygon();
+      tmp.addPoint(valX.get(i), valY.get(i));
+      temporal.add(tmp);
+    }
+    return temporal;
+  }
 }
