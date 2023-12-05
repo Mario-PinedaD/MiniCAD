@@ -15,16 +15,17 @@ public class MiniCAD {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Ventana f = new Ventana();
+        Ventana ventana = new Ventana();
         PanelDibujable panel = new PanelDibujable();
-        OyenteEventos oyente = new OyenteEventos(f, panel);
-        f.addEventos(oyente);
-        f.addEventosMouse(oyente);
-        f.setName("MiniCAD");
-        f.setSize(800, 800);
-        f.setLocation(100, 100);
-        f.setDefaultCloseOperation(Ventana.EXIT_ON_CLOSE);
-        f.setVisible(true);
+        OyenteEventos oyente = new OyenteEventos(ventana, panel);
+        //*******************//
+        ventana.addEventos(oyente);
+        ventana.addEventosMouse(oyente);
+        ventana.setName("MiniCAD");
+        ventana.setSize(1000, 800);
+        ventana.setLocation(100, 100);
+        ventana.setDefaultCloseOperation(Ventana.EXIT_ON_CLOSE);
+        ventana.setVisible(true);
     }
 
 }
