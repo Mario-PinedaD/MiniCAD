@@ -6,6 +6,7 @@ package minicad;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  *
@@ -25,8 +24,7 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
   private Ventana vista; //Ventana general
   private PanelDibujable panel; //Panel donde se va a Dibujar y hacer todo
   private ArrayList<Polygon> formas = new ArrayList<>(); //Arraylist de puntos pa guardar
-  private ArrayList<Integer> puntosX = new ArrayList<>();
-  private ArrayList<Integer> puntosY = new ArrayList<>();
+  private ArrayList<Point> puntosPoligonos = new ArrayList<>();
   private int cantPuntos = 0; //cant de puntos de la figura
 
   public OyenteEventos(Ventana vista, PanelDibujable panel) {
@@ -36,42 +34,10 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    int pLlevados = 0;
-    int[] puntos;
-    String figura = vista.getSeleccionFigura();
-    switch (figura) {
-      case "Linea":
-        cantPuntos = 2;
-        puntos = new int[cantPuntos];
-        System.out.println("Se eligió: " + figura);
-        do {
-          System.out.println("Punto ");
-          pLlevados++;
-        } while (pLlevados != cantPuntos);
-        break;
 
-      case "Triangulo":
-        cantPuntos = 3;
-        puntos = new int[cantPuntos];
-        System.out.println("Se eligió " + figura);
-        break;
+    Point punto = new Point(e.getX(), e.getY());
+    puntosPoligonos.add(punto);
 
-      case "Cuadrado":
-        cantPuntos = 4;
-        puntos = new int[cantPuntos];
-        System.out.println("");
-        break;
-
-      case "Pentagono":
-        cantPuntos = 5;
-        puntos = new int[cantPuntos];
-        break;
-      //=================
-      case "Libre": //Caso fuera de la linea
-        puntosX.add(e.getX());
-        puntosY.add(e.getY());
-        break;
-    }
     //Esto nomas fue prueba
 //    System.out.println("Posicion en x " + e.getComponent().getLocation().getX());
 //    System.out.println("Posicion en y " + e.getComponent().getLocation().getY());
@@ -102,11 +68,9 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
 //        System.out.println("Seleccion: " + vista.getSeleccionFigura());
 //        break;
       case "dibujar":
-        if (vista.getSeleccionFigura().equals("Libre")) {
-          System.out.println("Seleccionó libre");
-          System.out.println("Tamaño: " + formas.size());
-          panel.setFiguras(crearPolygono(puntosX, puntosY));
-        }
+        System.out.println("Seleccionó libre");
+        System.out.println("Tamaño: " + formas.size());
+        panel.setFiguras(crearPolygono(puntosPoligonos));
         break;
       case "limpiar":
         System.out.println("Limpiar");
@@ -116,13 +80,18 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
     vista.repaint();
   }
 
-  public ArrayList<Polygon> crearPolygono(ArrayList<Integer> valX, ArrayList<Integer> valY) {
+  public ArrayList<Polygon> crearPolygono(ArrayList<Point> puntos) {
     ArrayList<Polygon> temporal = new ArrayList<>();
-    for (int i = 0; i < valX.size(); i++) {
-      Polygon tmp = new Polygon();
-      tmp.addPoint(valX.get(i), valY.get(i));
-      temporal.add(tmp);
+    int[] arrX = new int[puntos.size()];
+    int[] arrY = new int[puntos.size()];
+    for (int i = 0; i < puntos.size(); i++) {
+      System.out.println("Arreglo Puntos ||| x: " + (int) puntos.get(i).getX() + " | Y: " + (int) puntos.get(i).getY());//muetra los puntos
+//      tmp.addPoint((int) puntos.get(i).getX(), (int) puntos.get(i).getY());
+      arrX[i] = (int) puntos.get(i).getX();
+      arrY[i] = (int) puntos.get(i).getY();
     }
+    Polygon tmp = new Polygon(arrX, arrY, puntos.size()); //Creo objeto poligono
+    temporal.add(tmp);
     return temporal;
   }
 }

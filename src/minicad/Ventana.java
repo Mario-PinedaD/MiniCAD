@@ -4,6 +4,7 @@
  */
 package minicad;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -22,6 +23,7 @@ public class Ventana extends javax.swing.JFrame {
    */
   public Ventana() {
     initComponents();
+    panelDibujo.setBackground(Color.WHITE);
   }
 
   public void addEventos(ActionListener e) {
@@ -33,8 +35,6 @@ public class Ventana extends javax.swing.JFrame {
     botonX.setName("botonx");
     botonY.addActionListener(e);
     botonY.setName("botony");
-    //botonSeleccion.addActionListener(e);
-    //botonSeleccion.setName("seleccion");
     botonLimpiar.addActionListener(e);
     botonLimpiar.setName("limpiar");
     botonDibujar.addActionListener(e);
@@ -47,7 +47,10 @@ public class Ventana extends javax.swing.JFrame {
   }
 
   public void addEventosMouse(MouseListener m) {
-    panelDibujable1.addMouseListener(m);
+    panelDibujo.addMouseListener(m);
+  }
+  public JPanel getPanel(){
+    return panelDibujo;
   }
 
   /**
@@ -77,13 +80,13 @@ public class Ventana extends javax.swing.JFrame {
     jLabel4 = new javax.swing.JLabel();
     entradaRotar = new javax.swing.JTextField();
     botonRotar = new javax.swing.JButton();
-    panelDibujable1 = new minicad.PanelDibujable();
     panelEste = new javax.swing.JPanel();
     opcionFigura = new javax.swing.JComboBox<>();
     jScrollPane1 = new javax.swing.JScrollPane();
     listaFiguras = new javax.swing.JList<>();
     botonLimpiar = new javax.swing.JButton();
     botonDibujar = new javax.swing.JButton();
+    panelDibujo = new javax.swing.JPanel();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,19 +142,6 @@ public class Ventana extends javax.swing.JFrame {
 
     getContentPane().add(panelSur, java.awt.BorderLayout.PAGE_END);
 
-    javax.swing.GroupLayout panelDibujable1Layout = new javax.swing.GroupLayout(panelDibujable1);
-    panelDibujable1.setLayout(panelDibujable1Layout);
-    panelDibujable1Layout.setHorizontalGroup(
-      panelDibujable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 557, Short.MAX_VALUE)
-    );
-    panelDibujable1Layout.setVerticalGroup(
-      panelDibujable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 459, Short.MAX_VALUE)
-    );
-
-    getContentPane().add(panelDibujable1, java.awt.BorderLayout.CENTER);
-
     panelEste.setPreferredSize(new java.awt.Dimension(150, 469));
 
     opcionFigura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Linea", "Triangulo", "Cuadrado", "Pentagono", "Libre" }));
@@ -193,6 +183,19 @@ public class Ventana extends javax.swing.JFrame {
     );
 
     getContentPane().add(panelEste, java.awt.BorderLayout.EAST);
+
+    javax.swing.GroupLayout panelDibujoLayout = new javax.swing.GroupLayout(panelDibujo);
+    panelDibujo.setLayout(panelDibujoLayout);
+    panelDibujoLayout.setHorizontalGroup(
+      panelDibujoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 664, Short.MAX_VALUE)
+    );
+    panelDibujoLayout.setVerticalGroup(
+      panelDibujoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 458, Short.MAX_VALUE)
+    );
+
+    getContentPane().add(panelDibujo, java.awt.BorderLayout.CENTER);
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
@@ -256,6 +259,9 @@ public class Ventana extends javax.swing.JFrame {
     //return opcionFigura.getActionCommand();
     return opcionFigura.getSelectedItem().toString();
   }
+  public void cargarListaFiguras(){
+    
+  }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton botonDibujar;
@@ -279,7 +285,7 @@ public class Ventana extends javax.swing.JFrame {
   private javax.swing.JSeparator jSeparator1;
   private javax.swing.JList<String> listaFiguras;
   private javax.swing.JComboBox<String> opcionFigura;
-  private minicad.PanelDibujable panelDibujable1;
+  private javax.swing.JPanel panelDibujo;
   private javax.swing.JPanel panelEste;
   private javax.swing.JPanel panelNorte;
   private javax.swing.JPanel panelSur;
