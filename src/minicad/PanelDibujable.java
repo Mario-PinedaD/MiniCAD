@@ -15,12 +15,14 @@ import java.awt.event.MouseListener;
 public class PanelDibujable extends javax.swing.JPanel {
 
   private ArrayList<Polygon> figuras;
+  private ArrayList<Color> colores;
 
   /**
    * Creates new form PanelDibujable
    */
   public PanelDibujable() {
     this.figuras = new ArrayList<>();
+    this.colores = new ArrayList<>();
     initComponents();
     this.setBackground(Color.WHITE);
   }
@@ -54,7 +56,7 @@ public class PanelDibujable extends javax.swing.JPanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     dibujarPuntos(g);
-      System.out.println("Cantidad " +figuras.size());
+    System.out.println("Cantidad " + figuras.size());
   }
 
   @Override
@@ -65,15 +67,14 @@ public class PanelDibujable extends javax.swing.JPanel {
 
   public void dibujarPuntos(Graphics g) {
     //Graphics2D g2d = (Graphics2D) g;
-    g.setColor(new Color(
-      (int) (Math.random() * 256),
-      (int) (Math.random() * 256),
-      (int) (Math.random() * 256)));
-
     // Dibujar cada polígono
+    int i = 0;
     for (Polygon poligono : figuras) {
+      g.setColor(colores.get(i));
       g.drawPolygon(poligono);
+      g.fillPolygon(poligono);
       //this.repaint();
+      i++;
     }
     //this.repaint();
 
@@ -85,6 +86,10 @@ public class PanelDibujable extends javax.swing.JPanel {
 
   public ArrayList<Polygon> getFiguras() {
     return figuras;
+  }
+
+  public void setColores(ArrayList<Color> colores) {
+    this.colores = colores;
   }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

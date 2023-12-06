@@ -24,6 +24,8 @@ public class Ventana extends javax.swing.JFrame {
   public Ventana() {
     initComponents();
     panelDibujo.setBackground(Color.WHITE);
+    opcionFigura.setSelectedIndex(opcionFigura.getItemCount()-1);
+    opcionFigura.setEnabled(false);
   }
 
   public void addEventos(ActionListener e) {
@@ -40,8 +42,8 @@ public class Ventana extends javax.swing.JFrame {
     botonDibujar.addActionListener(e);
     botonDibujar.setName("dibujar");
   }
-  
-  public void addEventosLista(ListSelectionEvent l){
+
+  public void addEventosLista(ListSelectionEvent l) {
     listaFiguras.addListSelectionListener((ListSelectionListener) l);
     listaFiguras.setName("lista");
   }
@@ -49,8 +51,18 @@ public class Ventana extends javax.swing.JFrame {
   public void addEventosMouse(MouseListener m) {
     panelDibujo.addMouseListener(m);
   }
-  public JPanel getPanel(){
+
+  public JPanel getPanel() {
     return panelDibujo;
+  }
+
+  public void setLista(String[] nombres) {
+    for (int i = 0; i < nombres.length; i++) {
+      listaFiguras.setListData(nombres);
+    }
+  }
+  public javax.swing.JList<String> getLista(){
+    return listaFiguras;
   }
 
   /**
@@ -172,7 +184,7 @@ public class Ventana extends javax.swing.JFrame {
       panelEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEsteLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(opcionFigura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -199,8 +211,6 @@ public class Ventana extends javax.swing.JFrame {
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
-
-
 
   public double getEscalaX() {
     if (!entradaEscalaX.getText().isBlank()) {
@@ -259,8 +269,9 @@ public class Ventana extends javax.swing.JFrame {
     //return opcionFigura.getActionCommand();
     return opcionFigura.getSelectedItem().toString();
   }
-  public void cargarListaFiguras(){
-    
+
+  public void cargarListaFiguras() {
+
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
