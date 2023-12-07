@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -160,6 +161,7 @@ public class Ventana extends javax.swing.JFrame {
 
     listaFiguras.setToolTipText("");
     listaFiguras.setName(""); // NOI18N
+    listaFiguras.setValueIsAdjusting(true);
     jScrollPane1.setViewportView(listaFiguras);
 
     botonLimpiar.setText("Limpiar Lienzo");
@@ -265,14 +267,9 @@ public class Ventana extends javax.swing.JFrame {
   }
 
   public String getSeleccionFigura() {
-    //return opcionFigura.getSelectedItem().toString();
-    //return opcionFigura.getActionCommand();
     return opcionFigura.getSelectedItem().toString();
   }
 
-  public void cargarListaFiguras() {
-
-  }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton botonDibujar;

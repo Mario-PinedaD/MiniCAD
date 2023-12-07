@@ -28,6 +28,11 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
   private ArrayList<Color> colores = new ArrayList<>();
   private ArrayList<String> nombres = new ArrayList<>();
 
+  /*
+    Debo considerar el hecho de que no se introduzcan "puntos" sin más,
+    es decir, que la cantidad de puntos sea
+    mayor a 1 al menos, para tener algo que dibujar
+   */
   public OyenteEventos(Ventana vista, PanelDibujable panel) {
     this.vista = vista;
     this.panel = panel;
@@ -59,22 +64,41 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
       case "rotar":
         System.out.println("Presionó rotar " + vista.getRotar());
         break;
-      //**********
+      //********************************
       case "botonx":
-        int[][] matrij = aplicarTraslacion(generarMatriz(getPoligonoSeleccionado()), vista.getMovX(), 0);
-        
+
+        //Creamos una matriz con los nuevos valores de traslación
+        int[][] matrizX = aplicarTraslacion(generarMatriz(getPoligonoSeleccionado()), vista.getMovX(), 0);
+
+//        //Esto es para mostrar las posiciones originales, la de traslacion
+//        //La nueva matriz y los valores del polígono.
+        System.out.println("Matriz original: ");
+        mostrarMatriz(generarMatriz(getPoligonoSeleccionado()));
+        System.out.println("Matriz de Traslacion: ");
+        mostrarMatriz(generarMatrizTraslacion(vista.getMovX(), 0));
+        System.out.println("Matriz transformada: ");
+        mostrarMatriz(matrizX);
+        System.out.println("Valores del nuevo polígono: ");
+        mostrarPoligono(crearPolygonos(matrizX));
+//
+        //Reemplazamos el polígono previo por el nuevo ya transformado.
+        formas.set(getPoligonoPosicion(), crearPolygonos(matrizX));
+        panel.setFiguras(formas);
+        colores.add(crearColor());
+        panel.setColores(colores);
+        puntosPoligonos.clear();
+        generarNombres();
+        actualizarLista();
+        nombres.clear();
+        panel.repaint();
+
         break;
-      //************************
+      //********************************
       case "botony":
         System.out.println("Presionó en Y: " + vista.getMovY());
-        aplicarTraslacion(generarMatriz(getPoligonoSeleccionado()), 0, vista.getMovY());
-        break;
+        int[][] matrizY = aplicarTraslacion(generarMatriz(getPoligonoSeleccionado()), 0, -1 * vista.getMovY());
 
-      //********************************
-      case "dibujar":
-        System.out.println("Seleccionó libre");
-        System.out.println("Tamaño: " + formas.size());
-        formas.add(crearPolygonos(puntosPoligonos));
+        formas.set(getPoligonoPosicion(), crearPolygonos(matrizY));
         panel.setFiguras(formas);
         colores.add(crearColor());
         panel.setColores(colores);
@@ -84,12 +108,30 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         nombres.clear();
         panel.repaint();
         break;
+
+      //********************************
+      case "dibujar":
+        if (puntosPoligonos.size() > 1) {
+          System.out.println("Seleccionó libre");
+          System.out.println("Tamaño: " + formas.size());
+          formas.add(OyenteEventos.this.crearPolygonos(puntosPoligonos));
+          panel.setFiguras(formas);
+          colores.add(crearColor());
+          panel.setColores(colores);
+          puntosPoligonos.clear();
+          generarNombres();
+          actualizarLista();
+          nombres.clear();
+          panel.repaint();
+        } else {
+          puntosPoligonos.clear();
+        }
+        break;
       //----------------------------------------
       case "limpiar":
         System.out.println("Limpiar");
         formas.clear();
         colores.clear();
-        vista.getLista().removeAll();
         actualizarLista();
         panel.removeAll();
         panel.repaint();
@@ -97,6 +139,35 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         break;
     }
 
+  }
+
+  public void mostrarPoligono(Polygon poligono) {
+    int[] valX = poligono.xpoints;
+    int[] valY = poligono.ypoints;
+    System.out.println("Valores en X: ");
+    for (int i = 0; i < valX.length; i++) {
+      System.out.print(valX[i] + " ");
+    }
+    //En caso de que no pinte, borrar \n  no se pq pero no funciona as
+    System.out.println("\nValores en Y: ");
+    for (int i = 0; i < valY.length; i++) {
+      System.out.print(valY[i] + " ");
+    }
+  }
+
+  public Polygon crearPolygonos(int[][] matriz) {
+    int[] arrX = new int[matriz.length];
+    int[] arrY = new int[matriz[0].length];
+
+    for (int i = 0; i < matriz.length; i++) {
+//      tmp.addPoint((int) puntos.get(i).getX(), (int) puntos.get(i).getY());
+      //Valores agregados correctamente
+      arrX[i] = (int) matriz[0][i];
+      arrY[i] = (int) matriz[1][i];
+    }
+
+    Polygon poligono = new Polygon(arrX, arrY, arrX.length);
+    return poligono;
   }
 
   //Funcion para crear un polígono de un conjunto de puntos que se introdujeron con clics.
@@ -132,6 +203,7 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
       tmpNombre[i] = nombres.get(i);
     }
     vista.setLista(tmpNombre);
+    vista.getLista().repaint();
   }
 
   //Se obtiene el polígono con el que se va a chambear
@@ -140,9 +212,17 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
     return formas.get(pos);
   }
 
+  public int getPoligonoPosicion() {
+    int pos = vista.getLista().getSelectedIndex();
+    return pos;
+  }
+
   //Se crea la matriz con la q se va a chambear.
+  //Funciona matriz [filas][columnas]
   public int[][] generarMatriz(Polygon poligono) {
     int[][] matrizDelPoligono = new int[3][poligono.npoints];
+    System.out.println("filas: " + matrizDelPoligono.length);
+    System.out.println("Columnas: " + matrizDelPoligono[0].length);
     int[] pX = poligono.xpoints;
     int[] pY = poligono.ypoints;
     int total = poligono.npoints;
@@ -212,10 +292,8 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
   public int[][] aplicarTraslacion(int[][] matriz, int valorX, int valorY) {
 
     int[][] tmpTrasladada = new int[matriz.length][matriz[0].length];
-    
-    
 
-    tmpTrasladada = convertirInt(productoMatriz(matriz, convertirDouble(generarMatrizTraslacion(valorX, valorY))));
+    tmpTrasladada = convertirInt(productoMatriz(convertirDouble(generarMatrizTraslacion(valorX, valorY)), convertirDouble(matriz)));
 
     return tmpTrasladada;
   }
@@ -242,24 +320,26 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
 
   //Considerando que, matriz A será la correspondiente a la operacion 
   //y la B seran los puntos con los q se trabajarán
-  public double[][] productoMatriz(int[][] matrizA, double[][] matrizB) {
+  public double[][] productoMatriz(double[][] matrizA, double[][] matrizB) {
     //Filas
     //Matriz A
-    int fA = matrizA.length;
+    int filaA = matrizA.length;
     //Matriz B
-    int fB = matrizB.length;
+    int filaB = matrizB.length;
     //Columnas
     //Matriz A
-    int cA = matrizA[0].length;
+    int columnaA = matrizA[0].length;
     //Matriz B
-    int cB = matrizB[0].length;
+    int columnaB = matrizB[0].length;
 
-    double[][] tmp = new double[3][cB];
+    double[][] tmp = new double[filaA][columnaB];
 
-    for (int i = 0; i < fA; i++) {
-      for (int j = 0; j < cB; j++) {
-        for (int k = 0; k < cA; k++) {
-          // aquí se multiplica la matriz
+    //Para todas las filas de A
+    for (int i = 0; i < filaA; i++) {
+      //Semultiplican por todas las columnas de B
+      for (int j = 0; j < filaB; j++) {
+        //Obteniendo
+        for (int k = 0; k < columnaA; k++) {
           tmp[i][j] += matrizA[i][k] * matrizB[k][j];
         }
       }
@@ -286,5 +366,15 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
       }
     }
     return tmp;
+  }
+
+  //Este unicamente era por si quería mostrar las matrices con las q se trabajan
+  public void mostrarMatriz(int[][] matrij) {
+    for (int i = 0; i < matrij.length; i++) {
+      for (int k = 0; k < matrij[0].length; k++) {
+        System.out.print(matrij[i][k] + " ");
+      }
+      System.out.println("");
+    }
   }
 }

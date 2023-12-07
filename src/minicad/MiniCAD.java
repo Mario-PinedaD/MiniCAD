@@ -27,6 +27,7 @@ public class MiniCAD {
         ventana.setName("MiniCAD");
         ventana.setSize(1000, 800);
         ventana.setLocation(100, 100);
+        ventana.setResizable(false);
         ventana.setDefaultCloseOperation(Ventana.EXIT_ON_CLOSE);
         ventana.setVisible(true);
     }
