@@ -72,8 +72,8 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         colores.add(crearColor());
         panel.setColores(colores);
         puntosPoligonos.clear();
-        generarNombres();
-        actualizarLista();
+//        generarNombres();
+//        actualizarLista();
         nombres.clear();
         panel.repaint();
         break;
@@ -85,7 +85,7 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         System.out.println("Matriz original: ");
         mostrarMatriz(generarMatriz(getPoligonoSeleccionado()));
         System.out.println("Matriz de Rotacion: ");
-        mostrarMatriz(convertirInt(generarMatrizRotacion(vista.getRotar())));
+        mostrarMatriz(convertirInt(generarMatrizRotacion(vista.getRotar()))); //JAJAJA no muestra nada pq no hay valores qmostrar, pipipi
 //        System.out.println("Matriz transformada: ");
 //        mostrarMatriz(matrizRotacion);
 //        System.out.println("Valores del nuevo polígono: ");
@@ -96,8 +96,8 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         colores.add(crearColor());
         panel.setColores(colores);
         puntosPoligonos.clear();
-        generarNombres();
-        actualizarLista();
+//        generarNombres();
+//        actualizarLista();
         nombres.clear();
         panel.repaint();
         break;
@@ -123,8 +123,8 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         colores.add(crearColor());
         panel.setColores(colores);
         puntosPoligonos.clear();
-        generarNombres();
-        actualizarLista();
+//        generarNombres();
+//        actualizarLista();
         nombres.clear();
         panel.repaint();
 
@@ -138,8 +138,8 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         colores.add(crearColor());
         panel.setColores(colores);
         puntosPoligonos.clear();
-        generarNombres();
-        actualizarLista();
+//        generarNombres();
+//        actualizarLista();
         nombres.clear();
         panel.repaint();
         break;

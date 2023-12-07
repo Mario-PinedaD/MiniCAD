@@ -186,7 +186,7 @@ public class Ventana extends javax.swing.JFrame {
       panelEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEsteLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(opcionFigura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -202,11 +202,11 @@ public class Ventana extends javax.swing.JFrame {
     panelDibujo.setLayout(panelDibujoLayout);
     panelDibujoLayout.setHorizontalGroup(
       panelDibujoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 664, Short.MAX_VALUE)
+      .addGap(0, 852, Short.MAX_VALUE)
     );
     panelDibujoLayout.setVerticalGroup(
       panelDibujoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 458, Short.MAX_VALUE)
+      .addGap(0, 575, Short.MAX_VALUE)
     );
 
     getContentPane().add(panelDibujo, java.awt.BorderLayout.CENTER);
