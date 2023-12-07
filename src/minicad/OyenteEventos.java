@@ -67,7 +67,6 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
 //        mostrarMatriz(matrizEscalar);
 //        System.out.println("Valores del nuevo polígono: ");
 //        mostrarPoligono(crearPolygonos(matrizEscalar));
-
         formas.set(getPoligonoPosicion(), crearPolygonos(matrizEscalar));
         panel.setFiguras(formas);
         colores.add(crearColor());
@@ -78,8 +77,29 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         nombres.clear();
         panel.repaint();
         break;
+
+      //*******************
       case "rotar":
-        System.out.println("Presionó rotar " + vista.getRotar());
+        int[][] matrizRotacion = rotacion(generarMatriz(getPoligonoSeleccionado()));
+
+        System.out.println("Matriz original: ");
+        mostrarMatriz(generarMatriz(getPoligonoSeleccionado()));
+        System.out.println("Matriz de Rotacion: ");
+        mostrarMatriz(convertirInt(generarMatrizRotacion(vista.getRotar())));
+//        System.out.println("Matriz transformada: ");
+//        mostrarMatriz(matrizRotacion);
+//        System.out.println("Valores del nuevo polígono: ");
+//        mostrarPoligono(crearPolygonos(matrizRotacion));
+
+        formas.set(getPoligonoPosicion(), crearPolygonos(matrizRotacion));
+        panel.setFiguras(formas);
+        colores.add(crearColor());
+        panel.setColores(colores);
+        puntosPoligonos.clear();
+        generarNombres();
+        actualizarLista();
+        nombres.clear();
+        panel.repaint();
         break;
       //********************************
       case "botonx":
@@ -252,11 +272,21 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
     return matrizDelPoligono;
   }
 
+  public int[][] rotacion(int[][] matriz) {
+    int xBase = matriz[0][0];
+    int yBase = matriz[1][0];
+
+    return aplicarTraslacion(
+      convertirInt(
+        aplicarRotacion(
+          aplicarTraslacion(matriz, -xBase, -yBase), vista.getRotar())), xBase, yBase);
+  }
+
   //Método para aplicar la rotación de la figura
   public double[][] aplicarRotacion(int[][] matriz, int angulo) {
     double[][] tmpRotada = new double[matriz.length][matriz[0].length]; //Matriz temporal para guardar los valores
 
-    aplicarTraslacion(matriz, -matriz[0][0], -matriz[0][1]);//Se lleva al origen
+    tmpRotada = productoMatriz(generarMatrizRotacion(angulo), convertirDouble(matriz));
     return tmpRotada; //Devolvemos la matriz
   }
 
@@ -283,9 +313,10 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
     //Puntos en X y Y de base para llevarlo al origen
     int xBase = matriz[0][0];
     int yBase = matriz[1][0];
-    vista.getEscalaX();
-    vista.getEscalaY();
-    return aplicarTraslacion(convertirInt(aplicarEscalado(aplicarTraslacion(matriz, -xBase, -yBase), vista.getEscalaX(), vista.getEscalaY())), xBase, yBase);
+    return aplicarTraslacion(
+      convertirInt(
+        aplicarEscalado(
+          aplicarTraslacion(matriz, -xBase, -yBase), vista.getEscalaX(), vista.getEscalaY())), xBase, yBase);
   }
 
   //Método para aplicar el escalado
