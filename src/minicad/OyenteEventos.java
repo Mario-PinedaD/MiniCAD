@@ -273,13 +273,20 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
   }
 
   public int[][] rotacion(int[][] matriz) {
-    int xBase = matriz[0][0];
-    int yBase = matriz[1][0];
+    int xCentro = 0;
+    int yCentro = 0;
+    int totalPuntos = matriz[0].length;
+    for (int i = 0; i < totalPuntos; i++) {
+        xCentro += matriz[0][i];
+        yCentro += matriz[1][i];
+    }
+    xCentro /= totalPuntos;
+    yCentro /= totalPuntos;
 
     return aplicarTraslacion(
       convertirInt(
         aplicarRotacion(
-          aplicarTraslacion(matriz, -xBase, -yBase), vista.getRotar())), xBase, yBase);
+          aplicarTraslacion(matriz, -xCentro, -yCentro), vista.getRotar())), xCentro, yCentro);
   }
 
   //Método para aplicar la rotación de la figura
