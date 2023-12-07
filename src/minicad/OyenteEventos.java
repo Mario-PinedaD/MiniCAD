@@ -57,29 +57,45 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
     switch (boton.getName()) {
       case "escalar":
         //Se aplica el escalado a la matriz de los puntos del poligono seleccionado
-        aplicarEscalado(
-          generarMatriz(
-            getPoligonoSeleccionado()));
+        int[][] matrizEscalar = escalar(generarMatriz(getPoligonoSeleccionado()));
+
+//        System.out.println("Matriz original: ");
+//        mostrarMatriz(generarMatriz(getPoligonoSeleccionado()));
+//        System.out.println("Matriz de Escala: ");
+//        mostrarMatriz(convertirInt(generarMatrizEscalado(vista.getEscalaX(), vista.getEscalaY())));
+//        System.out.println("Matriz transformada: ");
+//        mostrarMatriz(matrizEscalar);
+//        System.out.println("Valores del nuevo polígono: ");
+//        mostrarPoligono(crearPolygonos(matrizEscalar));
+
+        formas.set(getPoligonoPosicion(), crearPolygonos(matrizEscalar));
+        panel.setFiguras(formas);
+        colores.add(crearColor());
+        panel.setColores(colores);
+        puntosPoligonos.clear();
+        generarNombres();
+        actualizarLista();
+        nombres.clear();
+        panel.repaint();
         break;
       case "rotar":
         System.out.println("Presionó rotar " + vista.getRotar());
         break;
       //********************************
       case "botonx":
-
         //Creamos una matriz con los nuevos valores de traslación
         int[][] matrizX = aplicarTraslacion(generarMatriz(getPoligonoSeleccionado()), vista.getMovX(), 0);
 
 //        //Esto es para mostrar las posiciones originales, la de traslacion
 //        //La nueva matriz y los valores del polígono.
-        System.out.println("Matriz original: ");
-        mostrarMatriz(generarMatriz(getPoligonoSeleccionado()));
-        System.out.println("Matriz de Traslacion: ");
-        mostrarMatriz(generarMatrizTraslacion(vista.getMovX(), 0));
-        System.out.println("Matriz transformada: ");
-        mostrarMatriz(matrizX);
-        System.out.println("Valores del nuevo polígono: ");
-        mostrarPoligono(crearPolygonos(matrizX));
+//        System.out.println("Matriz original: ");
+//        mostrarMatriz(generarMatriz(getPoligonoSeleccionado()));
+//        System.out.println("Matriz de Traslacion: ");
+//        mostrarMatriz(generarMatrizTraslacion(vista.getMovX(), 0));
+//        System.out.println("Matriz transformada: ");
+//        mostrarMatriz(matrizX);
+//        System.out.println("Valores del nuevo polígono: ");
+//        mostrarPoligono(crearPolygonos(matrizX));
 //
         //Reemplazamos el polígono previo por el nuevo ya transformado.
         formas.set(getPoligonoPosicion(), crearPolygonos(matrizX));
@@ -95,7 +111,6 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
         break;
       //********************************
       case "botony":
-        System.out.println("Presionó en Y: " + vista.getMovY());
         int[][] matrizY = aplicarTraslacion(generarMatriz(getPoligonoSeleccionado()), 0, -1 * vista.getMovY());
 
         formas.set(getPoligonoPosicion(), crearPolygonos(matrizY));
@@ -156,17 +171,17 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
   }
 
   public Polygon crearPolygonos(int[][] matriz) {
-    int[] arrX = new int[matriz.length];
+    int[] arrX = new int[matriz[0].length];
     int[] arrY = new int[matriz[0].length];
 
-    for (int i = 0; i < matriz.length; i++) {
+    for (int i = 0; i < matriz[0].length; i++) {
 //      tmp.addPoint((int) puntos.get(i).getX(), (int) puntos.get(i).getY());
-      //Valores agregados correctamente
+      //Valores agregados correctamente considera que es [fila] [columna]
       arrX[i] = (int) matriz[0][i];
       arrY[i] = (int) matriz[1][i];
     }
 
-    Polygon poligono = new Polygon(arrX, arrY, arrX.length);
+    Polygon poligono = new Polygon(arrX, arrY, arrY.length);
     return poligono;
   }
 
@@ -264,9 +279,22 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
     return rotacion;
   }
 
-  //Método para aplicar el escalado
-  public void aplicarEscalado(int[][] matriz) {
+  public int[][] escalar(int[][] matriz) {
+    //Puntos en X y Y de base para llevarlo al origen
+    int xBase = matriz[0][0];
+    int yBase = matriz[1][0];
+    vista.getEscalaX();
+    vista.getEscalaY();
+    return aplicarTraslacion(convertirInt(aplicarEscalado(aplicarTraslacion(matriz, -xBase, -yBase), vista.getEscalaX(), vista.getEscalaY())), xBase, yBase);
+  }
 
+  //Método para aplicar el escalado
+  public double[][] aplicarEscalado(int[][] matriz, double esX, double esY) {
+    double[][] tmp = new double[matriz.length][matriz[0].length];
+    //El orden del escalado sería
+    //Devolver - Escalar - origen
+    tmp = productoMatriz(generarMatrizEscalado(esX, esY), convertirDouble(matriz));
+    return tmp;
   }
 
   /*Considerando que:
@@ -274,8 +302,8 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
   | 0 s 0
   | 0 0 1
    */
-  public int[][] generarMatrizEscalado(int escalaX, int escalaY) {
-    int[][] escalado = new int[3][3];
+  public double[][] generarMatrizEscalado(double escalaX, double escalaY) {
+    double[][] escalado = new double[3][3];
     escalado[0][0] = escalaX;
     escalado[0][1] = 0;
     escalado[0][2] = 0;
@@ -337,7 +365,7 @@ public class OyenteEventos extends MouseAdapter implements ActionListener {
     //Para todas las filas de A
     for (int i = 0; i < filaA; i++) {
       //Semultiplican por todas las columnas de B
-      for (int j = 0; j < filaB; j++) {
+      for (int j = 0; j < columnaB; j++) {
         //Obteniendo
         for (int k = 0; k < columnaA; k++) {
           tmp[i][j] += matrizA[i][k] * matrizB[k][j];
